@@ -5,7 +5,7 @@ plugins {
 	id 'com.google.cloud.tools.jib' version '3.4.4'
 }
 
-group = 'org.cresplanex.api.state'
+group = 'org.cresplanex.api.event'
 version = '0.0.1'
 
 java {
@@ -105,7 +105,7 @@ jib {
 		}
 	}
 	to {
-		image = "ablankz/nova-plan-service"
+		image = "ablankz/nova-plan-query-service"
 		tags = ["${imageVersion}-${imageArchitecture}", "latest-${imageArchitecture}"]
 	}
 }
@@ -131,7 +131,7 @@ platforms.each { platform ->
 		doLast {
 			jib.from.platforms.unset()
 			jib.from.platforms.addAll([pltParam])
-			jib.to.image = "ablankz/nova-plan-service"
+			jib.to.image = "ablankz/nova-plan-query-service"
 			jib.to.tags = ["${imageVersion}-${platform.arch}", "latest-${platform.arch}"]
 			jibDockerBuild.buildDocker()
 		}
