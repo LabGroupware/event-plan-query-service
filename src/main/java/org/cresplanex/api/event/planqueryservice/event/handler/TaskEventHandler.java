@@ -42,10 +42,11 @@ public class TaskEventHandler {
         
         TaskEntity taskEntity = DtoMapper.convertFrom(resultData.getTask());
 
-        taskService.createAndAttacheFiles(
+        log.info("Task created: {}", taskEntity);
+
+        taskService.create(
             "",
-            taskEntity,
-            taskEntity.getTaskAttachments()
+            taskEntity
         );
     }
 

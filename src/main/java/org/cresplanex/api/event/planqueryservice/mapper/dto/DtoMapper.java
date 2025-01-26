@@ -8,6 +8,7 @@ import org.cresplanex.api.state.common.dto.plan.TaskWithAttachmentsDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DtoMapper {
 
@@ -57,22 +58,18 @@ public class DtoMapper {
         return taskEntity;
     }
 
-    public static TaskAttachmentEntity convertFrom(FileObjectOnTaskDto fileObjectOnTaskDto) {
-        TaskAttachmentEntity taskAttachmentEntity = new TaskAttachmentEntity();
-        taskAttachmentEntity.setTaskAttachmentId(fileObjectOnTaskDto.getTaskAttachmentId());
-        taskAttachmentEntity.setFileObjectId(fileObjectOnTaskDto.getFileObjectId());
-        return taskAttachmentEntity;
-    }
-
-    public static List<TaskAttachmentEntity> convertFrom(List<FileObjectOnTaskDto> fileObjectOnTaskDtos) {
-        return fileObjectOnTaskDtos.stream()
-                .map(DtoMapper::convertFrom)
-                .toList();
-    }
-
     public static TaskEntity convertFrom(TaskWithAttachmentsDto taskWithAttachmentsDto) {
         TaskEntity taskEntity = convertFrom(taskWithAttachmentsDto.getTask());
-        taskEntity.setTaskAttachments(convertFrom(taskWithAttachmentsDto.getAttachments()));
+        List<TaskAttachmentEntity> taskAttachmentEntities = taskWithAttachmentsDto.getAttachments().stream()
+                .map(fileObjectOnTaskDto -> {
+                    TaskAttachmentEntity taskAttachmentEntity = new TaskAttachmentEntity();
+                    taskAttachmentEntity.setTaskAttachmentId(fileObjectOnTaskDto.getTaskAttachmentId());
+                    taskAttachmentEntity.setFileObjectId(fileObjectOnTaskDto.getFileObjectId());
+                    taskAttachmentEntity.setTask(taskEntity);
+                    return taskAttachmentEntity;
+                })
+                .collect(Collectors.toList());
+        taskEntity.setTaskAttachments(taskAttachmentEntities);
         return taskEntity;
     }
 }

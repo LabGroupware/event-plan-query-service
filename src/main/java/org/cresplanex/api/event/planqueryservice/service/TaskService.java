@@ -271,6 +271,10 @@ public class TaskService extends BaseService {
         return taskRepository.findAll(spec, createSort(sortType));
     }
 
+    public TaskEntity create(String operatorId, TaskEntity task) {
+        return taskRepository.save(task);
+    }
+
     public TaskEntity createAndAttacheFiles(String operatorId, TaskEntity task, List<TaskAttachmentEntity> attachments) {
         task = taskRepository.save(task);
         TaskEntity finalTask = task;
