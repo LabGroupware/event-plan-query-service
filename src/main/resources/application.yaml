@@ -21,7 +21,7 @@ spring:
     baseline-version: 0
 grpc:
   server:
-    port: ${PLAN_SERVICE_GRPC_PORT:9032} # default: 9090
+    port: ${PLAN_QUERY_SERVICE_GRPC_PORT:9032} # default: 9090
     keep-alive-timeout: 60
     keep-alive-time: 600
     max-inbound-message-size: 104857600 # TODO: message chunking
@@ -35,7 +35,7 @@ grpc:
       keep-alive-time: 600
       max-inbound-message-size: 104857600 # TODO: message chunking
 server:
-  port: ${PLAN_SERVICE_PORT:7998}
+  port: ${PLAN_QUERY_SERVICE_PORT:7998}
 core:
   kafka: # kafkaプロパティ
     bootstrap:
